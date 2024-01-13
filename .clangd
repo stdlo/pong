@@ -1,0 +1,10 @@
+CompileFlags:
+  Add:
+    - -IC:\raylib\raylib\src
+    - -Iexternal
+    - -DPLATFORM_DESKTOP
+    - -std=c99
+    - -lraylib
+    - -lopengl32
+    - -lgdi3
+    - -lwinmm

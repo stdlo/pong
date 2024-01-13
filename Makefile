@@ -12,7 +12,10 @@ release: $(SRC)
 	cc -o $(TARGET) $(SRC) $(CFLAGS) -Wl,--subsystem,windows $(LDFLAGS)
 
 clean:
-	rm -f $(SRC) $(TARGET)
+	rm $(TARGET)
+
+%.exe:
+	cc -o $@ $(basename $@).c $(CFLAGS) $(LDFLAGS)
 
 run:
 	./$(TARGET)
