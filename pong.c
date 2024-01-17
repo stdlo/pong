@@ -43,9 +43,10 @@ int main(void) {
   const int screenWidth = 800;
   const int screenHeight = 450;
 
+  /* SetConfigFlags(FLAG_VSYNC_HINT); */
+  /* SetWindowState(FLAG_VSYNC_HINT); */
   InitWindow(screenWidth, screenHeight, "PONG");
-  /* SetTargetFPS(60); */
-  SetWindowState(FLAG_VSYNC_HINT);
+  SetTargetFPS(60);
 
   int leftScore = 0;
   int rightScore = 0;
@@ -55,10 +56,6 @@ int main(void) {
   Ball ball;
   ball.radius = 5;
   ResetBall(&ball);
-  /* ball.x = GetScreenWidth() / 2.0f; */
-  /* ball.y = GetScreenHeight() / 2.0f; */
-  /* ball.speedX = 300; */
-  /* ball.speedY = 300; */
 
   Paddle leftPaddle;
   leftPaddle.x = 50;
@@ -90,14 +87,14 @@ int main(void) {
     }
 
     // Read keypresses
-    if (IsKeyDown(KEY_W))
+    if (IsKeyDown(KEY_W) || IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_UP))
       leftPaddle.y -= leftPaddle.speed * GetFrameTime();
-    if (IsKeyDown(KEY_S))
+    if (IsKeyDown(KEY_S) || IsGamepadButtonDown(0, GAMEPAD_BUTTON_LEFT_FACE_DOWN))
       leftPaddle.y += leftPaddle.speed * GetFrameTime();
 
-    if (IsKeyDown(KEY_K))
+    if (IsKeyDown(KEY_O)  || IsGamepadButtonDown(1, GAMEPAD_BUTTON_LEFT_FACE_UP))
       rightPaddle.y -= rightPaddle.speed * GetFrameTime();
-    if (IsKeyDown(KEY_J))
+    if (IsKeyDown(KEY_L)  || IsGamepadButtonDown(1, GAMEPAD_BUTTON_LEFT_FACE_DOWN))
       rightPaddle.y += rightPaddle.speed * GetFrameTime();
 
     // ball collision
@@ -114,16 +111,11 @@ int main(void) {
       }
     }
 
-    /* float leftPaddleTop = leftPaddle.y - leftPaddle.height / 2; */
-    /* float leftPaddleBottom = leftPaddle.y + leftPaddle.height / 2; */
     // paddle collision
     if ((leftPaddle.y + leftPaddle.height / 2) >= GetScreenHeight()) leftPaddle.y = GetScreenHeight() - leftPaddle.height / 2;
     else if ((leftPaddle.y - leftPaddle.height / 2) <= 0) leftPaddle.y = leftPaddle.height / 2;
-
     if ((rightPaddle.y + rightPaddle.height / 2) >= GetScreenHeight()) rightPaddle.y = GetScreenHeight() - rightPaddle.height / 2;
     else if ((rightPaddle.y - rightPaddle.height / 2) <= 0) rightPaddle.y = rightPaddle.height / 2;
-    /* if (((leftPaddle.y + leftPaddle.height) >= GetScreenHeight()) || (leftPaddle.y <= 0)) leftPaddle.speed = 0; */
-    /* if (((rightPaddle.y + rightPaddle.height) >= GetScreenHeight()) || (rightPaddle.y <= 0)) rightPaddle.speed = 0; */
 
     if (ball.x < 0) {
       leftScore += 1;
@@ -136,14 +128,14 @@ int main(void) {
 
     if (rightScore > 9) {
       winner = 1;
-      winnerText = "RIGHT PLAYER WINS!";
+      winnerText = "PLAYER 2 WINS!";
       ResetBall(&ball);
       ball.speedX = 0;
       ball.speedY = 0;
     }
     if (leftScore > 9) {
       winner = 1;
-      winnerText = "LEFT PLAYER WINS!";
+      winnerText = "PLAYER 1 WINS!";
       ResetBall(&ball);
       ball.speedX = 0;
       ball.speedY = 0;
@@ -160,7 +152,6 @@ int main(void) {
       winner = 0;
     }
 
-    // Draw
     BeginDrawing();
     {
       ClearBackground(BLACK);
@@ -181,9 +172,6 @@ int main(void) {
     }
     EndDrawing();
   }
-
-  // De-Initialization
   CloseWindow();
-
   return 0;
 }
