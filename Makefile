@@ -2,7 +2,7 @@ RAYLIB_PATH = C:\raylib\raylib
 # CFLAGS = -s -static -Os -std=c99 -Wall -I$(RAYLIB_PATH)\src -Iexternal -DPLATFORM_DESKTOP
 CFLAGS = -static -std=c99 -Wall -I$(RAYLIB_PATH)\src -Iexternal -DPLATFORM_DESKTOP
 LDFLAGS = -lraylib -lopengl32 -lgdi32 -lwinmm
-SRC = pong.c
+SRC := $(wildcard src/*.c)
 TARGET = pong.exe
 
 build: $(SRC)
